@@ -13,8 +13,10 @@ add_executable(robot_arm
     src/RobotArm.cpp
     src/Scene.cpp
     src/Texture.cpp
+    src/ShaderProgram.cpp
 )
 
 target_link_libraries(robot_arm PRIVATE OpenGL::GL sfml-system sfml-window sfml-graphics)
 
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY shaders DESTINATION ${CMAKE_BINARY_DIR})

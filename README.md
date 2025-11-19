@@ -1,12 +1,12 @@
 # 3D Robot Arm
 
-Interactive OpenGL scene built with C++ and SFML that presents a stylized robot arm standing on a textured platform. The project showcases the fixed-function rendering pipeline, programmable camera motions, Phong lighting and hierarchical joint transforms.
+Interactive OpenGL scene built with C++ and SFML that presents a stylized robot arm standing on a textured platform. The project showcases a GLSL-based Phong lighting pipeline, programmable camera motions, texturing and hierarchical joint transforms.
 
 ## Features
-- Classic OpenGL (fixed pipeline) rendering embedded in an SFML window
+- Classic OpenGL immediate-mode geometry driven by a custom GLSL shader pipeline
 - Hierarchical robot arm model with base, shoulder, elbow, wrist and claw joints
 - Manual joint control of the entire rig (base, shoulder, elbow, wrist, claw)
-- Phong lighting (ambient + diffuse + specular) with per-face normals
+- Per-fragment Phong lighting (ambient + diffuse + specular) implemented in GLSL
 - Textured ground plane loaded from an external TGA image
 - Keyboard orbit controls for the camera with adjustable zoom
 
@@ -36,7 +36,8 @@ cmake --build build
 - `Esc` – quit
 
 ## Assets
-- `assets/textures/checker.tga` – simple checkerboard texture authored for this project.
+- `assets/textures/checker.tga` – simple checkerboard texture authored for this project
+- `shaders/phong.vert`, `shaders/phong.frag` – custom vertex & fragment shaders powering the lighting model
 
 ## Screenshots
-Please run the executable and capture screenshots or short GIFs with your preferred tool while demonstrating both animation and interactive control modes.
+Please run the executable and capture screenshots or short GIFs showing different camera angles and joint poses.

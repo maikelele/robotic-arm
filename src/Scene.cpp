@@ -2,8 +2,6 @@
 
 #include <SFML/OpenGL.hpp>
 
-#include <algorithm>
-#include <array>
 #include <cmath>
 
 namespace
@@ -21,25 +19,6 @@ sf::ContextSettings defaultContext()
     return settings;
 }
 
-void configureLights()
-{
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    const GLfloat globalAmbient[] = {0.2f, 0.2f, 0.2f, 1.f};
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
-
-    const GLfloat diffuse[] = {0.8f, 0.8f, 0.8f, 1.f};
-    const GLfloat specular[] = {0.9f, 0.9f, 0.9f, 1.f};
-    const GLfloat position[] = {6.f, 8.f, 4.f, 1.f};
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
-
-    glEnable(GL_COLOR_MATERIAL);
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-    glMaterialf(GL_FRONT, GL_SHININESS, 32.f);
-}
-
 void initializeOpenGL()
 {
     glEnable(GL_DEPTH_TEST);
@@ -47,8 +26,6 @@ void initializeOpenGL()
     glEnable(GL_CULL_FACE);
     glShadeModel(GL_SMOOTH);
     glClearColor(0.05f, 0.07f, 0.1f, 1.f);
-
-    configureLights();
 }
 
 void updateProjection(int width, int height)
@@ -78,7 +55,7 @@ void applyCamera(float yaw, float pitch, float distance)
 
 void drawGround(unsigned textureId)
 {
-    glEnable(GL_TEXTURE_2D);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureId);
 
     glBegin(GL_QUADS);
@@ -95,5 +72,4 @@ void drawGround(unsigned textureId)
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_TEXTURE_2D);
 }

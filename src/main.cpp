@@ -1,5 +1,6 @@
 #include "RobotArm.hpp"
 #include "Scene.hpp"
+#include "ShaderProgram.hpp"
 #include "Texture.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -8,7 +9,44 @@
 #include <SFML/OpenGL.hpp>
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
+
+namespace
+{
+constexpr float degToRad = 3.1415926535f / 180.f;
+
+struct Vec3
+{
+    float x;
+    float y;
+    float z;
+};
+
+Vec3 rotateY(const Vec3& v, float degrees)
+{
+    const float rad = degrees * degToRad;
+    const float c = std::cos(rad);
+    const float s = std::sin(rad);
+    return {v.x * c + v.z * s, v.y, -v.x * s + v.z * c};
+}
+
+Vec3 rotateX(const Vec3& v, float degrees)
+{
+    const float rad = degrees * degToRad;
+    const float c = std::cos(rad);
+    const float s = std::sin(rad);
+    return {v.x, v.y * c - v.z * s, v.y * s + v.z * c};
+}
+
+Vec3 normalize(const Vec3& v)
+{
+    const float len = std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    if (len == 0.f)
+        return {0.f, 0.f, 0.f};
+    return {v.x / len, v.y / len, v.z / len};
+}
+}
 
 int main()
 {
@@ -19,9 +57,11 @@ int main()
     initializeOpenGL();
     updateProjection(window.getSize().x, window.getSize().y);
 
+    ShaderProgram shader;
     GLuint groundTexture = 0;
     try
     {
+        shader.loadFromFiles("shaders/phong.vert", "shaders/phong.frag");
         groundTexture = loadTexture("assets/textures/checker.tga");
     }
     catch (const std::exception& e)
@@ -29,6 +69,12 @@ int main()
         std::cerr << e.what() << '\n';
         return 1;
     }
+    shader.use();
+    shader.setUniform1i("uTexture", 0);
+    shader.setUniform1f("uShininess", 32.f);
+    shader.setUniform3f("uAmbientColor", 0.15f, 0.15f, 0.18f);
+    shader.setUniform3f("uLightColor", 0.9f, 0.9f, 0.95f);
+    shader.setUniform3f("uSpecularColor", 0.9f, 0.9f, 0.9f);
 
     RobotArm robot;
     float cameraYaw = 35.f;
@@ -90,9 +136,16 @@ int main()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         applyCamera(cameraYaw, cameraPitch, cameraDistance);
-        configureLights();
 
+        shader.use();
+        const Vec3 worldLightDir = normalize(Vec3{-0.6f, -1.f, -0.4f});
+        const Vec3 lightEye = rotateX(rotateY(worldLightDir, cameraYaw), cameraPitch);
+        shader.setUniform3f("uLightDir", lightEye.x, lightEye.y, lightEye.z);
+
+        shader.setUniform1i("uUseTexture", 1);
         drawGround(groundTexture);
+
+        shader.setUniform1i("uUseTexture", 0);
         robot.draw();
 
         window.display();
