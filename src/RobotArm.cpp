@@ -120,7 +120,7 @@ void RobotArm::draw() const
 
     glColor3f(0.9f, 0.9f, 0.4f);
     const float clawLength = 1.f;
-    const float clawPivotOffset = 0.35f;
+    const float clawPivotOffset = 0.3f;
 
     glPushMatrix();
     glTranslatef(clawPivotOffset, 0.3f, 0.f);
