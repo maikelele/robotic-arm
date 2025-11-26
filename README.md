@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [3D Robot Arm](#3d-robot-arm)
+  - [Features](#features)
+  - [Demo](#demo)
+  - [Requirements](#requirements)
+  - [Building & Running](#building--running)
+    - [Controls](#controls)
+  - [Assets](#assets)
+  - [Screenshots](#screenshots)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 3D Robot Arm
 
 Interactive OpenGL scene built with C++ and SFML that presents a stylized robot arm standing on a textured platform. The project showcases a GLSL-based Phong lighting pipeline, programmable camera motions, texturing and hierarchical joint transforms.
@@ -9,6 +24,9 @@ Interactive OpenGL scene built with C++ and SFML that presents a stylized robot 
 - Per-fragment Phong lighting (ambient + diffuse + specular) implemented in GLSL
 - Textured ground plane loaded from an external TGA image
 - Keyboard orbit controls for the camera with adjustable zoom
+
+## Demo
+![Demo recording showcasing the functionalities](assets/demo.mp4)
 
 ## Requirements
 - C++17 compiler
