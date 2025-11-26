@@ -26,9 +26,9 @@ Interactive OpenGL scene built with C++ and SFML that presents a stylized robot 
 - Keyboard orbit controls for the camera with adjustable zoom
 
 ## Demo
-<video src="assets/demo.mp4" controls width="600">
-  Your browser does not support the video tag.
-</video>
+https://github.com/user-attachments/assets/68affc9f-dda7-434a-99a1-1a664de03adc
+
+
 
 ## Requirements
 - C++17 compiler
